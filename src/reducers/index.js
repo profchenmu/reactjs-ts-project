@@ -1,10 +1,15 @@
 import { combineReducers } from 'redux';
-// import baseReducer from './demoReducer.js';
+import allPairsReducer from './allPairsReducer.js';
+import getTradingPairFormReducer from './getTradingPairFormReducer.js';
 import demoReducer from './demoReducer.js';
+import compareAccountListByPairReducer from './compareAccountListByPairReducer.js'
 
 const rootReducer = combineReducers({
 	// baseReducer
-	demoReducer
+	demoReducer,
+	allPairsReducer,
+	getTradingPairFormReducer,
+	compareAccountListByPairReducer
 });
 
 export default rootReducer

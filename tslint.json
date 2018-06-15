@@ -10,6 +10,8 @@
   "rules": {
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "no-console": false
+    "no-console": false,
+    "jsx-no-lambda": false,
+    "one-variable-per-declaration": false
   }
 }

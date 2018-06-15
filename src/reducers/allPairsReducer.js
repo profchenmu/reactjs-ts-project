@@ -8,7 +8,7 @@ let initialState = {
 
 export default (state = initialState, action)=>{
     switch (action.type){
-        case Type.DEMO:
+        case Type.ALL_PAIRS:
             return Object.assign({}, initialState, action.payload)
         // case Type.GET_PRODUCT_LIST:
         //     return FUC.extendObj(initialState, {productList: action.payload})

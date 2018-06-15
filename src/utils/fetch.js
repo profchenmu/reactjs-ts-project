@@ -31,13 +31,19 @@ export const fetchJson = (options) => {
       },
      
     };
-
     if(['POST','PUT'].indexOf(opts.method.toUpperCase()) >= 0){
         opts.body = JSON.stringify(data);
     }
+    var newUrl = url;
+    if(opts.method.toUpperCase() == 'GET' && data){
+        newUrl+='?'
+        for(let key in data){
+            newUrl+=`${key}=${data[key]}&`
+        }
+    }
 
     // var newUrl = API.DOMAIN + API.CONTEXT + url;
-    var newUrl = '/api/groupPolicy/bankCardOCR';
+    
     // console.log('newUrl',newUrl);
     fetch(newUrl, opts)
         .then(resData => toJson(resData, opts))
@@ -57,7 +63,7 @@ function toJson(resp, options) {
 
 // // 请求成功处理
 function resHandler(resData, options){
-    options.success(resData.data)
+    options.success(resData.result)
 }
 // function resHandler(resData, options) {
 //     isFlag = false;

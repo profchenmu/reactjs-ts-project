@@ -1,39 +1,45 @@
 import * as React from 'react';
-
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Button } from 'antd';
+import * as getTradingPairFormAction from 'src/actions/getTradingPairFormAction.js'; 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+// import { InputNumber, Checkbox } from 'antd';
 const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
+// const Option = Select.Option;
+// const AutoCompleteOption = AutoComplete.Option;
 
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
+// const residences = [{
+//   value: 'zhejiang',
+//   label: 'Zhejiang',
+//   children: [{
+//     value: 'hangzhou',
+//     label: 'Hangzhou',
+//     children: [{
+//       value: 'xihu',
+//       label: 'West Lake',
+//     }],
+//   }],
+// }, {
+//   value: 'jiangsu',
+//   label: 'Jiangsu',
+//   children: [{
+//     value: 'nanjing',
+//     label: 'Nanjing',
+//     children: [{
+//       value: 'zhonghuamen',
+//       label: 'Zhong Hua Men',
+//     }],
+//   }],
+// }];
 
 class RegistrationForm extends React.Component<any, any> {
   public state = {
     confirmDirty: false,
     autoCompleteResult: [],
   };
+  public componentDidMount(){
+    this.props.actions.getTradingPairForm(this.props.match.params)
+  }
   public handleSubmit = (e:any) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err:any, values:any) => {
@@ -42,199 +48,283 @@ class RegistrationForm extends React.Component<any, any> {
       }
     });
   }
-  public handleConfirmBlur = (e:any) => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  public cancel = () => {
+    this.props.history.push(`/page1`)
   }
-  public compareToFirstPassword = (rule:any, value:any, callback:any) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  }
-  public validateToNextPassword = (rule:any, value:any, callback:any) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  }
-  public handleWebsiteChange = (value:any) => {
-    let autoCompleteResult:any;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-    }
-    this.setState({ autoCompleteResult });
-  }
+  // public handleConfirmBlur = (e:any) => {
+  //   const value = e.target.value;
+  //   this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  // }
+  // public compareToFirstPassword = (rule:any, value:any, callback:any) => {
+  //   const form = this.props.form;
+  //   if (value && value !== form.getFieldValue('password')) {
+  //     callback('Two passwords that you enter is inconsistent!');
+  //   } else {
+  //     callback();
+  //   }
+  // }
+  // public validateToNextPassword = (rule:any, value:any, callback:any) => {
+  //   const form = this.props.form;
+  //   if (value && this.state.confirmDirty) {
+  //     form.validateFields(['confirm'], { force: true });
+  //   }
+  //   callback();
+  // }
+  // public handleWebsiteChange = (value:any) => {
+  //   let autoCompleteResult:any;
+  //   if (!value) {
+  //     autoCompleteResult = [];
+  //   } else {
+  //     autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
+  //   }
+  //   this.setState({ autoCompleteResult });
+  // }
   public render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
+    // const { autoCompleteResult } = this.state;
 
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 },
+        sm: { span: 6 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 },
+        sm: { span: 14 },
       },
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
-
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
-
+    // const tailFormItemLayout = {
+    //   wrapperCol: {
+    //     xs: {
+    //       span: 24,
+    //       offset: 0,
+    //     },
+    //     sm: {
+    //       span: 16,
+    //       offset: 8,
+    //     },
+    //   },
+    // };
+    const { tradingForm } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
-          label="E-mail"
+          label="baseName"
         >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
+          {getFieldDecorator('baseName', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.asset1
           })(
             <Input />
           )}
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Password"
+          label="quoteName"
         >
-          {getFieldDecorator('password', {
+          {getFieldDecorator('quoteName', {
             rules: [{
-              required: true, message: 'Please input your password!',
+              // type: 'number', message: 'The input is not valid number!',
             }, {
-              validator: this.validateToNextPassword,
+              // required: true, message: 'Please input your E-mail!',
             }],
-          })(
-            <Input type="password" />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Confirm Password"
-        >
-          {getFieldDecorator('confirm', {
-            rules: [{
-              required: true, message: 'Please confirm your password!',
-            }, {
-              validator: this.compareToFirstPassword,
-            }],
-          })(
-            <Input type="password" onBlur={this.handleConfirmBlur} />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label={(
-            <span>
-              Nickname&nbsp;
-              <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          )}
-        >
-          {getFieldDecorator('nickname', {
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            initialValue: tradingForm.asset2
           })(
             <Input />
           )}
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Habitual Residence"
+          label="weight"
         >
-          {getFieldDecorator('residence', {
-            initialValue: ['zhejiang', 'hangzhou', 'xihu'],
-            rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
+          {getFieldDecorator('weight', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.weight
           })(
-            <Cascader options={residences} />
+            <Input />
           )}
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Phone Number"
+          label="expiration"
         >
-          {getFieldDecorator('phone', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+          {getFieldDecorator('expiration', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.expiration_in_sec
           })(
-            <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+            <Input />
           )}
         </FormItem>
+        
         <FormItem
           {...formItemLayout}
-          label="Website"
+          label="order_amount"
         >
-          {getFieldDecorator('website', {
-            rules: [{ required: true, message: 'Please input website!' }],
+          {getFieldDecorator('order_amount', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.order_amount
           })(
-            <AutoComplete
-              dataSource={websiteOptions}
-              onChange={this.handleWebsiteChange}
-              placeholder="website"
-            >
-              <Input />
-            </AutoComplete>
+            <Input 
+              // onChange={(value:any) => `${value}%`}
+            />
           )}
         </FormItem>
+
         <FormItem
           {...formItemLayout}
-          label="Captcha"
-          extra="We must make sure that your are a human."
+          label="amount_floating"
         >
-          <Row gutter={8}>
-            <Col span={12}>
-              {getFieldDecorator('captcha', {
-                rules: [{ required: true, message: 'Please input the captcha you got!' }],
-              })(
-                <Input />
-              )}
-            </Col>
-            <Col span={12}>
-              <Button>Get captcha</Button>
-            </Col>
-          </Row>
+          {getFieldDecorator('amount_floating', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.amount_floating
+          })(
+            <Input 
+              onChange={(value:any) => `${value}%`}
+            />
+          )}
         </FormItem>
-        <FormItem {...tailFormItemLayout}>
+
+        <FormItem
+          {...formItemLayout}
+          label="max_position_percentage"
+        >
+          {getFieldDecorator('max_position_percentage', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.max_position_percentage
+          })(
+            <Input 
+              // onChange={(value:any) => `${value}%`}
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          {...formItemLayout}
+          label="price_nag_floating"
+        >
+          {getFieldDecorator('price_nag_floating', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.price_nag_floating
+          })(
+            <Input 
+              // onChange={(value:any) => `${value}%`}
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          {...formItemLayout}
+          label="price_pos_floating"
+        >
+          {getFieldDecorator('price_pos_floating', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.price_pos_floating
+          })(
+            <Input 
+              // onChange={(value:any) => `${value}%`}
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          {...formItemLayout}
+          label="lower"
+        >
+          {getFieldDecorator('lower', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            initialValue: tradingForm.lower
+          })(
+            <Input 
+              disabled={tradingForm.need_cancel}
+              // onChange={(value:any) => `${value}%`}
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          {...formItemLayout}
+          label="upper"
+        >
+          {getFieldDecorator('upper', {
+            // rules: [{
+            //   // type: 'number', message: 'The input is not valid number!',
+            // }, {
+            //   // required: true, message: 'Please input your E-mail!',
+            // }],
+            // initialValue: tradingForm.upper,
+            initialValue: tradingForm.upper
+          })(
+            <Input 
+              disabled={tradingForm.need_cancel}
+              // onChange={(value:any) => `${value}%`}
+            />
+          )}
+        </FormItem>
+        {/* <FormItem
+          {...formItemLayout}
+          label="amount"
+        >
+          {getFieldDecorator('amount', {
+            initialValue: '100'
+          })(
+            <InputNumber
+              min={0}
+              max={100}
+              formatter={value => `${value}%`}
+              parser={(value:any) => value.replace('%', '')}
+              // onChange={onChange}
+            />
+          )}
+        </FormItem> */}
+        
+        {/* <FormItem {...formItemLayout}>
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
           })(
             <Checkbox>I have read the <a href="">agreement</a></Checkbox>
           )}
-        </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
-        </FormItem>
+        </FormItem> */}
+        {/* <FormItem {...formItemLayout}> */}
+          <Button onClick={this.cancel}>Cancel</Button>
+          <Button type="primary" htmlType="submit">submit</Button>
+        {/* </FormItem> */}
       </Form>
     );
   }
@@ -242,4 +332,21 @@ class RegistrationForm extends React.Component<any, any> {
 
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
-export default WrappedRegistrationForm;
+// export default WrappedRegistrationForm;
+
+function mapStateToProps (state:any) {
+  return {
+    tradingForm: state.getTradingPairFormReducer || {}
+  }
+}
+function mapDispatchToProps (dispatch?:any) {
+  // const actions = Object.assign(productAction, policyPlanAction)
+  return {
+    actions: bindActionCreators(getTradingPairFormAction, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrappedRegistrationForm)

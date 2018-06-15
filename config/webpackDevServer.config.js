@@ -83,7 +83,8 @@ module.exports = function(proxy, allowedHost) {
     proxy:
       {
         '/api/**': {
-            target: 'http://localhost:9001',
+            // target: 'http://localhost:9001',
+            target: 'http://47.101.40.219:1980',
             secure: false,
             // rewrite: function(req) {
             //     req.url = req.url.replace(/^\/api/, '');

@@ -1,4 +1,4 @@
-import Button from 'antd/lib/button';
+import { Link } from 'react-router-dom';
 import Divider from 'antd/lib/divider';
 // import Icon from 'antd/lib/icon';
 import Table from 'antd/lib/table';
@@ -47,14 +47,16 @@ const columns = [{
 // }
 
 
-class PageIn extends React.Component<any, any> {
+class Detail extends React.Component<any, any> {
   constructor(props: object) {
     super(props);
     this.state = {
+      // id: this.props.match.params
     };
   }
   public componentDidMount(){
-    this.props.actions.demo();
+    // this.props.actions.demo(this.props.match.params);
+    this.props.actions.compare(this.props.match.params);
   }
   public render() {
     const accountListByPair = this.props.accountListByPair;
@@ -82,8 +84,8 @@ class PageIn extends React.Component<any, any> {
 
     return (
       <div className="App">
+        <Link to={`/page1`}>back_to_index</Link>
         <Table columns={columns} dataSource={accountListByPair} />
-        <Button type="primary">Button</Button>
       </div>
     );
   }
@@ -106,4 +108,4 @@ function mapDispatchToProps (dispatch?:any) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PageIn)
+)(Detail)
