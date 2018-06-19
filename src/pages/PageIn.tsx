@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import TimePickerModal from 'src/components/TimePickerModal';
+import ConfirmModal from 'src/components/ConfirmModal';
 import * as React from 'react';
 import * as allPairsAction from 'src/actions/allPairsAction.js';
 
@@ -24,7 +25,10 @@ class PageIn extends React.Component<any, any> {
     super(props);
     this.state = {
       hotId: 1,
-      showTimePickerModal: false
+      showTimePickerModal: false,
+      showConfirmModal: false,
+      confirmData: ''
+      // showConfirmTransInModal: false
     };
   }
   public componentDidMount(){
@@ -77,9 +81,9 @@ class PageIn extends React.Component<any, any> {
       render: (text:any, record:any) => {
         return(
           <span>
-            <a href="javascript:;">Transfor_out</a>
+            <a href="javascript:;" onClick={this.showConfirmModal.bind(this, 'trans_out', record)}>Transfor_out</a>
             <Divider type="vertical" />
-            <a href="javascript:;">Transfor_in</a>
+            <a href="javascript:;" onClick={this.showConfirmModal.bind(this, 'trans_in', record)}>Transfor_in</a>
             <Divider type="vertical" />
             <a href="javascript:;" onClick={this.caoAction.bind(this, record)}>Compare</a>
             <Divider type="vertical" />
@@ -95,6 +99,12 @@ class PageIn extends React.Component<any, any> {
       },
     }]
   }
+  public showConfirmModal(data?:any){
+    this.setState({showConfirmModal: true, confirmData: data})
+  }
+  // public showConfirmTransInModal(){
+  //   this.setState({showConfirmTransOutModal: true})
+  // }
   public caoAction(this:any, record:any, e:any){
     this.setState({showTimePickerModal: true, hotId: record.id})
     // console.log(this, record, e);
@@ -113,34 +123,32 @@ class PageIn extends React.Component<any, any> {
     // }
     this.props.history.push(`/compare/${this.state.hotId}/${ts}`);
   }
+  public toTransOut(){
+    alert('transOut')
+  }
+  public toTransIn(){
+    alert('transIn')
+  }
   public render() {
     const tradingPairs = this.props.tradingPairs;
     tradingPairs.forEach((e:any, i:number) => {
       e.key = i;
     });
 
-    // const data = [{
-    //   key: '1',
-    //   name: 'John Brown',
-    //   age: 32,
-    //   address: 'New York No. 1 Lake Park',
-    // }, {
-    //   key: '2',
-    //   name: 'Jim Green',
-    //   age: 42,
-    //   address: 'London No. 1 Lake Park',
-    // }, {
-    //   key: '3',
-    //   name: 'Joe Black',
-    //   age: 32,
-    //   address: 'Sidney No. 1 Lake Park',
-    // }];
-
     console.log(this.state)
     return (
       <div className="App">
         <Button type="primary" onClick={this.addAccount}>Add</Button>
         <Table columns={this.columns()} dataSource={tradingPairs} />
+        <ConfirmModal 
+          showConfirmModal={this.state.showConfirmModal}
+          confirmData={this.state.confirmData}
+          // cb={this.toTransOut}
+        />
+        {/* <ConfirmModal 
+          showConfirmModal={this.state.ConfirmTransInModal}
+          cb={this.toTransIn}
+        /> */}
         <TimePickerModal 
           showTimePickerModal={this.state.showTimePickerModal}
           cb={this.toCompare}

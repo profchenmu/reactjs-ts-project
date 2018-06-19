@@ -55,11 +55,11 @@ class Detail extends React.Component<any, any> {
     };
   }
   public componentDidMount(){
-    // this.props.actions.demo(this.props.match.params);
-    this.props.actions.compare(this.props.match.params);
+    this.props.actions.demo(this.props.match.params);
+    // this.props.actions.compare(this.props.match.params);
   }
   public render() {
-    const accountListByPair = this.props.accountListByPair;
+    const accountListByPair = this.props.accountListByPair || [];
     accountListByPair.forEach((e:any, i:number) => {
       e.key = i;
     });

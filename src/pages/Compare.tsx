@@ -60,10 +60,10 @@ class Detail extends React.Component<any, any> {
   public render() {
     const compareDatas = this.props.compareDatas;
     let accountListByPair0 = [];
-    let accountListByPair1 = []
+    let accountListByPair1 = [];
     if(compareDatas.length>0){
-      accountListByPair0 = compareDatas[0].account_list_by_pair;
-      accountListByPair1 = compareDatas[1].account_list_by_pair;
+      accountListByPair0 = compareDatas[0].account_list_by_pair||[];
+      accountListByPair1 = compareDatas[1].account_list_by_pair||[];
       accountListByPair0.forEach((e:any, i:number) => {
         e.key = i;
       });
