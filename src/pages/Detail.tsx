@@ -63,29 +63,21 @@ class Detail extends React.Component<any, any> {
     accountListByPair.forEach((e:any, i:number) => {
       e.key = i;
     });
-
-    // const data = [{
-    //   key: '1',
-    //   name: 'John Brown',
-    //   age: 32,
-    //   address: 'New York No. 1 Lake Park',
-    // }, {
-    //   key: '2',
-    //   name: 'Jim Green',
-    //   age: 42,
-    //   address: 'London No. 1 Lake Park',
-    // }, {
-    //   key: '3',
-    //   name: 'Joe Black',
-    //   age: 32,
-    //   address: 'Sidney No. 1 Lake Park',
-    // }];
-
-
+    let footStr:string = '';
+    const totalAmount = this.props.totalAmount || [];
+    totalAmount.forEach((e:any, i:number) => {
+      console.log(e)
+      footStr += `${e.assid} -  ${e.bal} ; `
+    });
     return (
       <div className="App">
         <Link to={`/page1`}>back_to_index</Link>
-        <Table columns={columns} dataSource={accountListByPair} />
+        <Table 
+          columns={columns} 
+          dataSource={accountListByPair} 
+          footer={() => footStr}
+        />
+        
       </div>
     );
   }
@@ -95,7 +87,8 @@ class Detail extends React.Component<any, any> {
 
 function mapStateToProps (state:any) {
   return {
-    accountListByPair: state.demoReducer.account_list_by_pair || []
+    accountListByPair: state.demoReducer.account_list_by_pair || [],
+    totalAmount: state.demoReducer.totalAmount || []
   }
 }
 function mapDispatchToProps (dispatch?:any) {

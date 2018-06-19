@@ -61,6 +61,9 @@ class Detail extends React.Component<any, any> {
     const compareDatas = this.props.compareDatas;
     let accountListByPair0 = [];
     let accountListByPair1 = [];
+    let footStr0 = '';
+    let footStr1 = '';
+    
     if(compareDatas.length>0){
       accountListByPair0 = compareDatas[0].account_list_by_pair||[];
       accountListByPair1 = compareDatas[1].account_list_by_pair||[];
@@ -70,27 +73,22 @@ class Detail extends React.Component<any, any> {
       accountListByPair1.forEach((e:any, i:number) => {
         e.key = i;
       });
+      const totalAmount0 = compareDatas[0].totalAmount || [];
+      const totalAmount1 = compareDatas[1].totalAmount || [];
+      totalAmount0.forEach((e:any, i:number) => {
+        footStr0 += `${e.assid} -  ${e.bal} ; `
+      });
+      totalAmount1.forEach((e:any, i:number) => {
+        footStr1 += `${e.assid} -  ${e.bal} ; `
+      });
     }
-    
-    
 
-    // const data = [{
-    //   key: '1',
-    //   name: 'John Brown',
-    //   age: 32,
-    //   address: 'New York No. 1 Lake Park',
-    // }, {
-    //   key: '2',
-    //   name: 'Jim Green',
-    //   age: 42,
-    //   address: 'London No. 1 Lake Park',
-    // }, {
-    //   key: '3',
-    //   name: 'Joe Black',
-    //   age: 32,
-    //   address: 'Sidney No. 1 Lake Park',
-    // }];
-
+    // const totalAmount = this.props.totalAmount || [];
+    // totalAmount.forEach((e:any, i:number) => {
+    //   console.log(e)
+    //   footStr += `${e.assid} -  ${e.bal} ; `
+    // });
+    
 
     return (
       <div className="App">
@@ -99,11 +97,11 @@ class Detail extends React.Component<any, any> {
         </div>
         <div className="compare-in">
         <p>{accountListByPair0.ts}</p>
-        <Table columns={columns} dataSource={accountListByPair0} />
+        <Table columns={columns} dataSource={accountListByPair0} footer={() => footStr0}/>
         </div>
         <div className="compare-in">
         <p>{accountListByPair1.ts}</p>
-        <Table columns={columns} dataSource={accountListByPair1} />
+        <Table columns={columns} dataSource={accountListByPair1} footer={() => footStr1}/>
         </div>
       </div>
     );

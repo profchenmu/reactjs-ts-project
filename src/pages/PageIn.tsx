@@ -27,7 +27,8 @@ class PageIn extends React.Component<any, any> {
       hotId: 1,
       showTimePickerModal: false,
       showConfirmModal: false,
-      confirmData: ''
+      confirmData: '',
+      comfirmRecord: {}
       // showConfirmTransInModal: false
     };
   }
@@ -99,8 +100,8 @@ class PageIn extends React.Component<any, any> {
       },
     }]
   }
-  public showConfirmModal(data?:any){
-    this.setState({showConfirmModal: true, confirmData: data})
+  public showConfirmModal(data?:any, record?:any){
+    this.setState({showConfirmModal: true, confirmData: data, comfirmRecord: record})
   }
   // public showConfirmTransInModal(){
   //   this.setState({showConfirmTransOutModal: true})
@@ -134,8 +135,6 @@ class PageIn extends React.Component<any, any> {
     tradingPairs.forEach((e:any, i:number) => {
       e.key = i;
     });
-
-    console.log(this.state)
     return (
       <div className="App">
         <Button type="primary" onClick={this.addAccount}>Add</Button>
@@ -143,6 +142,10 @@ class PageIn extends React.Component<any, any> {
         <ConfirmModal 
           showConfirmModal={this.state.showConfirmModal}
           confirmData={this.state.confirmData}
+          cancelCb={()=>{this.setState({
+            showConfirmModal: false,
+          })}}
+          comfirmRecord={this.state.comfirmRecord}
           // cb={this.toTransOut}
         />
         {/* <ConfirmModal 
@@ -152,6 +155,9 @@ class PageIn extends React.Component<any, any> {
         <TimePickerModal 
           showTimePickerModal={this.state.showTimePickerModal}
           cb={this.toCompare}
+          cancelCb={()=>{this.setState({
+            showTimePickerModal: false,
+          })}}
         />
       </div>
     );

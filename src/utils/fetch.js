@@ -25,21 +25,28 @@ export const fetchJson = (options) => {
         ...others,
         method: type || 'get',
         credentials: 'include',
-        headers: options.headers || {
-          'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      },
+            headers: options.headers || {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        },
      
     };
     if(['POST','PUT'].indexOf(opts.method.toUpperCase()) >= 0){
-        opts.body = JSON.stringify(data);
+
+
+        let params = Object.keys(data).map(function (key) {
+            return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
+        }).join("&");
+        opts.body = params;
+        // opts.body = 'TradingPairId=1&assetName=CYB'
     }
     var newUrl = url;
     if(opts.method.toUpperCase() == 'GET' && data){
-        newUrl+='?'
-        for(let key in data){
-            newUrl+=`${key}=${data[key]}&`
-        }
+        newUrl+='?';
+        let params = Object.keys(data).map(function (key) {
+            return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
+        }).join("&");
+        newUrl+=params;
     }
 
     // var newUrl = API.DOMAIN + API.CONTEXT + url;

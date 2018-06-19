@@ -42,6 +42,7 @@ class TimePickerModal extends React.Component<any, any> {
   }
   public handleCancel = () => {
     this.setState({ visible: false });
+    this.props.cancelCb();
   }
   public dateChange = (date:any, dateString:any) => {
     this.setState({date: dateString})
