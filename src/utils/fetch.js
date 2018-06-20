@@ -54,6 +54,7 @@ export const fetchJson = (options) => {
     // console.log('newUrl',newUrl);
     fetch(newUrl, opts)
         .then(resData => toJson(resData, opts))
+        .catch(error => errorHandler(error,opts))
         .then(resData => resHandler(resData, opts))
         .catch(error => errorHandler(error, opts))
 };
@@ -66,11 +67,13 @@ function toJson(resp, options) {
     // resp.resolve(resp.json())
     // console.log(resp.json())
     return resp.json();
+    
+    
 }
 
 // // 请求成功处理
 function resHandler(resData, options){
-    options.success(resData.result)
+    options.success(resData)
 }
 // function resHandler(resData, options) {
 //     isFlag = false;
@@ -134,6 +137,7 @@ function errorHandler(error, options, status) {
       console.error(error)
         //StaticToast.err(`网络异常，请稍后重试(${status})`);
     }
+    return false;
 }
 
 // function Loading(IsShow){

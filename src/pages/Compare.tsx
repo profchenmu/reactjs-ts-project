@@ -93,7 +93,7 @@ class Detail extends React.Component<any, any> {
     return (
       <div className="App">
       <div>
-        <Link to={`/page1`}>back_to_index</Link>
+        <Link to={`/`}>back_to_index</Link>
         </div>
         <div className="compare-in">
         <p>{accountListByPair0.ts}</p>

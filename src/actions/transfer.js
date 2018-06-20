@@ -14,7 +14,7 @@ export function postTransfer (params) {
                 },
                 type: 'POST',
                 url: '/api/transfer_out',
-                data: params
+                data: params``
             })
         }
     }

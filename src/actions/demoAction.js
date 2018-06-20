@@ -20,7 +20,7 @@ export function demo (params) {
                 // }
                 dispatch({
                     type: Type.DEMO,
-                    payload: res
+                    payload: res.result
                 })
             },
             type: 'GET',

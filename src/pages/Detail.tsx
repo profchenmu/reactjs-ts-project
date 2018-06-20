@@ -71,7 +71,7 @@ class Detail extends React.Component<any, any> {
     });
     return (
       <div className="App">
-        <Link to={`/page1`}>back_to_index</Link>
+        <Link to={`/`}>back_to_index</Link>
         <Table 
           columns={columns} 
           dataSource={accountListByPair} 

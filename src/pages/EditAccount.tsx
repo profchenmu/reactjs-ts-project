@@ -44,12 +44,15 @@ class RegistrationForm extends React.Component<any, any> {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err:any, values:any) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        // console.log(this.props.tradingForm)
+        values.id = this.props.tradingForm.id
+        this.props.actions.postTradingPairForm(values)
+        // console.log('Received values of form: ', values);
       }
     });
   }
   public cancel = () => {
-    this.props.history.push(`/page1`)
+    this.props.history.push(`/`)
   }
   // public handleConfirmBlur = (e:any) => {
   //   const value = e.target.value;
@@ -79,6 +82,11 @@ class RegistrationForm extends React.Component<any, any> {
   //   }
   //   this.setState({ autoCompleteResult });
   // }
+  public componentWillReceiveProps(n:any){
+    if(n.success === 0){
+      this.props.history.push(`/`);
+    }
+  }
   public render() {
     const { getFieldDecorator } = this.props.form;
     // const { autoCompleteResult } = this.state;
@@ -155,9 +163,9 @@ class RegistrationForm extends React.Component<any, any> {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="expiration"
+          label="expiration_in_sec"
         >
-          {getFieldDecorator('expiration', {
+          {getFieldDecorator('expiration_in_sec', {
             // rules: [{
             //   // type: 'number', message: 'The input is not valid number!',
             // }, {
@@ -335,7 +343,9 @@ const WrappedRegistrationForm = Form.create()(RegistrationForm);
 // export default WrappedRegistrationForm;
 
 function mapStateToProps (state:any) {
+  console.log(state)
   return {
+    success: state.postTradingPairFormReducer.success,
     tradingForm: state.getTradingPairFormReducer || {}
   }
 }

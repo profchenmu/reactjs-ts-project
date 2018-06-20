@@ -5,7 +5,7 @@ import bundle from './Bundle';
 
 const Cao = bundle(() => import('./pages/PageIn'));
 const Cao2 = bundle(() => import('./pages/EditAccount'));
-const AddAccount = bundle(() => import('./pages/AddAccount'));
+const AddTradingPair = bundle(() => import('./pages/AddTradingPair'));
 const Detail = bundle(() => import('./pages/Detail'));
 const Compare = bundle(() => import('./pages/Compare'));
 const EditAccount = bundle(() => import('./pages/EditAccount'));
@@ -21,9 +21,9 @@ class App extends React.Component <any, any>{
         
         <Router>
           <div>
-          <Route path="/page1" component={Cao} />
+          <Route exact={true} path="/" component={Cao} />
           <Route path="/page2" component={Cao2} />
-          <Route path="/addaccount" component={AddAccount} />
+          <Route path="/addtradingpair" component={AddTradingPair} />
           <Route path="/editaccount/:id" component={EditAccount} />
           <Route path="/detail/:id" component={Detail} />
           <Route path="/compare/:id/:ts" component={Compare} />

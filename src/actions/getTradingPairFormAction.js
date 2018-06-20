@@ -20,12 +20,41 @@ export function getTradingPairForm (params) {
                 // }
                 dispatch({
                     type: Type.GET_TRADING_PAIR_FORM,
-                    payload: res
+                    payload: res.result
                 })
             },
             type: 'GET',
             url: '/api/get_trading_pair_form',
             data: {pair_id: params.id}
+        })
+    }
+}
+
+export function postTradingPairForm (params) {
+    return dispatch => {
+        // dispatch({
+        //     payload: {a: 2, b: 3},
+        //     type: Type.DEMO
+        // })
+        // dispatch({
+        //     payload: {success: 0},
+        //     type: Type.POST_TRADING_PAIR_FORM
+        // })
+        fetchJson({
+            success: (res) => {
+                // window.location.assign('/');
+                // if (!res || !res.length) {
+                //     // StaticToast.error('暂无数据');
+                //     return false;
+                // }
+                dispatch({
+                    type: Type.POST_TRADING_PAIR_FORM,
+                    payload: res
+                })
+            },
+            type: 'POST',
+            url: '/api/post_trading_pair_form',
+            data: params
         })
     }
 }

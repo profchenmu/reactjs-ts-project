@@ -20,7 +20,7 @@ export function compareAccountListByPair (params) {
                         //     // StaticToast.error('暂无数据');
                         //     return false;
                         // }
-                        const allResData = {compareDatas: [resNow, res]}
+                        const allResData = {compareDatas: [resNow.result, res.result]}
                         dispatch({
                             type: Type.COMPARE_ACCOUNT_LIST_BY_PAIR,
                             payload: allResData

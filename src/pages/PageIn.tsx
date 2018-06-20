@@ -9,6 +9,7 @@ import TimePickerModal from 'src/components/TimePickerModal';
 import ConfirmModal from 'src/components/ConfirmModal';
 import * as React from 'react';
 import * as allPairsAction from 'src/actions/allPairsAction.js';
+import * as initAction from 'src/actions/initAction.js';
 
 // const Column = Table.Column;
 
@@ -34,6 +35,7 @@ class PageIn extends React.Component<any, any> {
   }
   public componentDidMount(){
     this.props.actions.allPairs();
+    this.props.actions.init();
   }
   public columns(){
     return [{
@@ -111,8 +113,8 @@ class PageIn extends React.Component<any, any> {
     // console.log(this, record, e);
     
   }
-  public addAccount = () => {
-    this.props.history.push(`/addaccount`)
+  public addTradingPair = () => {
+    this.props.history.push(`/addtradingpair`)
   }
   // public editAction(this:any, record:any, e:any){
   //   this.props.history.push(`/editaccount/${record.id}`)
@@ -137,7 +139,7 @@ class PageIn extends React.Component<any, any> {
     });
     return (
       <div className="App">
-        <Button type="primary" onClick={this.addAccount}>Add</Button>
+        <Button type="primary" onClick={this.addTradingPair}>Add</Button>
         <Table columns={this.columns()} dataSource={tradingPairs} />
         <ConfirmModal 
           showConfirmModal={this.state.showConfirmModal}
@@ -173,9 +175,9 @@ function mapStateToProps (state:any) {
   }
 }
 function mapDispatchToProps (dispatch?:any) {
-  // const actions = Object.assign(productAction, policyPlanAction)
+  const actions = Object.assign(allPairsAction, initAction)
   return {
-    actions: bindActionCreators(allPairsAction, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   }
 }
 

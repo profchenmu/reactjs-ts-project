@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Form, Input, Button } from 'antd';
-import * as getTradingPairFormAction from 'src/actions/getTradingPairFormAction.js'; 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { Form, Input, Button, Checkbox } from 'antd';
+// import * as addTradingPairAction from 'src/actions/addTradingPairAction.js'; 
+// import { bindActionCreators } from 'redux';
+// import { connect } from 'react-redux';
 // import { InputNumber, Checkbox } from 'antd';
 const FormItem = Form.Item;
 // const Option = Select.Option;
@@ -33,21 +33,27 @@ const FormItem = Form.Item;
 // }];
 
 class RegistrationForm extends React.Component<any, any> {
-  public state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
-  };
+  constructor(props: object) {
+    super(props);
+    this.state = {
+      confirmDirty: false,
+      autoCompleteResult: [],
+    };
+  }
   public handleSubmit = (e:any) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err:any, values:any) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        this.props.formSubmit(values);
+        // console.log('Received values of form: ', values);
       }
     });
   }
   public cancel = () => {
-    this.props.history.push(`/page1`)
+    this.props.formCancel();
   }
+
+ 
   // public handleConfirmBlur = (e:any) => {
   //   const value = e.target.value;
   //   this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -134,9 +140,9 @@ class RegistrationForm extends React.Component<any, any> {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="number"
+          label="amount"
         >
-          {getFieldDecorator('number', {
+          {getFieldDecorator('amount', {
             // rules: [{
             //   // type: 'number', message: 'The input is not valid number!',
             // }, {
@@ -146,9 +152,18 @@ class RegistrationForm extends React.Component<any, any> {
             <Input />
           )}
         </FormItem>
+
+        <FormItem>
+          {getFieldDecorator('cancel', {
+            valuePropName: 'Y',
+            // initialValue: true,
+          })(
+            <Checkbox>Cancel</Checkbox>
+          )}
+        </FormItem>
         
         {/* <FormItem {...formItemLayout}> */}
-          <Button onClick={this.cancel}>Cancel</Button>
+          <Button onClick={this.cancel}>cancel</Button>
           <Button type="primary" htmlType="submit">submit</Button>
         {/* </FormItem> */}
       </Form>
@@ -158,21 +173,21 @@ class RegistrationForm extends React.Component<any, any> {
 
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
-// export default WrappedRegistrationForm;
+export default WrappedRegistrationForm;
 
-function mapStateToProps (state:any) {
-  return {
-    tradingForm: state.getTradingPairFormReducer || {}
-  }
-}
-function mapDispatchToProps (dispatch?:any) {
-  // const actions = Object.assign(productAction, policyPlanAction)
-  return {
-    actions: bindActionCreators(getTradingPairFormAction, dispatch)
-  }
-}
+// function mapStateToProps (state:any) {
+//   return {
+//     success: state.addTradingPairReducer.success || null
+//   }
+// }
+// function mapDispatchToProps (dispatch?:any) {
+//   // const actions = Object.assign(productAction, policyPlanAction)
+//   return {
+//     actions: bindActionCreators(addTradingPairAction, dispatch)
+//   }
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WrappedRegistrationForm)
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(WrappedRegistrationForm)
