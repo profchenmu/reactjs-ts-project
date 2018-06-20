@@ -43,7 +43,7 @@ class PageIn extends React.Component<any, any> {
       dataIndex: 'name',
       key: 'name',
       render: (text:any, record:any) => {
-        return(<span><a href="javascript:;">{record.asset1} - {record.asset1}</a></span>)
+        return(<span><a href="javascript:;">{record.asset1} - {record.asset2}</a></span>)
       }
     }, {
       title: 'Detail',

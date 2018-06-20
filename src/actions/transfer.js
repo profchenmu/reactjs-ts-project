@@ -4,6 +4,7 @@ import { fetchJson } from 'src/utils/fetch.js';
 
 export function postTransfer (params) {
     if(params.confirmData == 'trans_out'){
+        console.log(params)
         return dispatch => {
             fetchJson({
                 success: (res) => {
@@ -14,7 +15,7 @@ export function postTransfer (params) {
                 },
                 type: 'POST',
                 url: '/api/transfer_out',
-                data: params``
+                data: params
             })
         }
     }
